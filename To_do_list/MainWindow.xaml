@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -17,5 +18,6 @@
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0" Grid.Row="0">To do list</TextBlock>
         <TextBlock Grid.Column="0" Grid.Row="1">Дела</TextBlock>
+        <Button Grid.Column="0" Grid.Row="2">+</Button>
     </Grid>
 </Window>
