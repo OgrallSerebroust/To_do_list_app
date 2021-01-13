@@ -21,19 +21,30 @@ namespace To_do_list
     {
         public MainWindow()
         {
-            MySqlConnection conn = To_do_list.DbUtils.GetDbConnection();
-            conn.Open();
+            InitializeComponent();
+            GetContent();
+        }
+
+        private void GetContent()
+        {
+            MySqlConnection connection = DbUtils.GetDbConnection();
+            connection.Open();
             try
             {
-                string sql = "Insert into table_with_tasks (id) " + " values (@id) ";
-                MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = sql;
-                MySqlParameter idParam = new MySqlParameter("@id", SqlDbType.Int) {Value = 2};
-                cmd.Parameters.Add(idParam);
-                //MySqlParameter taskTextParam = new MySqlParameter("@task_text",SqlDbType.Text);
-                //taskTextParam.Value = "Hello";
-                //cmd.Parameters.Add(taskTextParam);
-                int a = cmd.ExecuteNonQuery();
+                string queryForReading = "SELECT * FROM table_with_tasks";
+                MySqlCommand commandForReading = connection.CreateCommand();
+                commandForReading.CommandText = queryForReading;
+                MySqlDataReader dataFromOurTaskTable = commandForReading.ExecuteReader();
+                if(dataFromOurTaskTable.HasRows)
+                {
+                    while(dataFromOurTaskTable.Read())
+                    {
+                        object id = dataFromOurTaskTable.GetValue(0);
+                        string text = dataFromOurTaskTable.GetValue(1).ToString();
+                        OurTasksBlock.AppendText(text + "\n");
+                    }
+                    dataFromOurTaskTable.Close();
+                }
             }
             catch (Exception e)
             {
@@ -42,11 +53,38 @@ namespace To_do_list
             }
             finally
             {
-                conn.Close(); 
-                conn.Dispose();
-                conn = null;
+                connection.Close(); 
+                connection.Dispose();
+                connection = null;
             }
-            InitializeComponent();
+        }
+
+        private void ButtonOfAdding_OnClick(object sender, RoutedEventArgs e)
+        {
+            string textOfOurNewTask = BlockOfNewTaskText.Text;
+            MySqlConnection connectionForInsertNewTask = DbUtils.GetDbConnection();
+            connectionForInsertNewTask.Open();
+            try
+            {
+                string queryForInserting = "Insert into table_with_tasks(task_text) " + " values (@task_text)";
+                MySqlCommand commandInInserting = connectionForInsertNewTask.CreateCommand();
+                commandInInserting.CommandText = queryForInserting;
+                MySqlParameter taskTextParam = new MySqlParameter("@task_text", MySqlDbType.String);
+                taskTextParam.Value = textOfOurNewTask;
+                commandInInserting.Parameters.Add(taskTextParam);
+                commandInInserting.ExecuteNonQuery();
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine("Error: " + exc);
+                Console.WriteLine(exc.StackTrace);
+            }
+            finally
+            {
+                connectionForInsertNewTask.Close(); 
+                connectionForInsertNewTask.Dispose();
+                connectionForInsertNewTask = null;
+            }
         }
     }
 }

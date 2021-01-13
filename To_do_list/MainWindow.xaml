@@ -16,8 +16,9 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0">To do list</TextBlock>
-        <TextBlock Grid.Column="0" Grid.Row="1">Дела</TextBlock>
-        <Button Grid.Column="0" Grid.Row="2">+</Button>
+        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">To do list</TextBlock>
+        <RichTextBox x:Name="OurTasksBlock" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"></RichTextBox>
+        <TextBox x:Name="BlockOfNewTaskText" Grid.Column="0" Grid.Row="2"></TextBox>
+        <Button Grid.Column="1" Grid.Row="2" Content="+" Click="ButtonOfAdding_OnClick"></Button>
     </Grid>
 </Window>
