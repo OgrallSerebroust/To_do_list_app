@@ -6,4 +6,14 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Neo4j.Driver" Version="4.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="MySql.Data, Version=8.0.22.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d">
+        <HintPath>C:\Users\stefa\Downloads\mysql-connector-net-8.0.22-noinstall\v4.8\MySql.Data.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>
